@@ -1,32 +1,25 @@
 #include <PS2X_lib.h>  //for v1.6
 
-/******************************************************************
- * set pins connected to PS2 controller:
- *   - 1e column: original 
- *   - 2e colmun: Stef?
- * replace pin numbers by the ones you use
- ******************************************************************/
-#define PS2_DAT        13  //14    
-#define PS2_CMD        11  //15
-#define PS2_SEL        10  //16
-#define PS2_CLK        12  //17
+#define PS2_DAT        13 
+#define PS2_CMD        11 
+#define PS2_SEL        10 
+#define PS2_CLK        12 
 
-/******************************************************************
- * select modes of PS2 controller:
- *   - pressures = analog reading of push-butttons 
- *   - rumble    = motor rumbling
- * uncomment 1 of the lines for each mode selection
- ******************************************************************/
-//#define pressures   true
-#define pressures   false
-//#define rumble      true
-#define rumble      false
+/*
+  Selecione os modos do controle:
+    - pressures = lendo botões do controle analógico
+    - rumble    = motor de vibração
+*/
 
-PS2X ps2x; // create PS2 Controller Class
+#define pressures   false //true
+#define rumble      false //true
 
-//right now, the library does NOT support hot pluggable controllers, meaning 
-//you must always either restart your Arduino after you connect the controller, 
-//or call config_gamepad(pins) again after connecting the controller.
+PS2X ps2x; // Cria a Instancia da classe 
+
+/*
+	Atualmente não é suportado que o controle seja plugado depois do arduino ter inicializado, então
+	Sempre que plugar o controle será necessário reiniciar o arduino ou charmar a função config_gamepad(pins)
+*/
 
 int error = 0;
 byte type = 0;
@@ -36,7 +29,7 @@ void setup(){
  
   Serial.begin(57600);
   
-  delay(300);  //added delay to give wireless ps2 module some time to startup, before configuring it
+  delay(300);  //Adicionado um delay para dar tempo ao controle inicializar antes de usar as funçoes de configuração
    
   //CHANGES for v1.6 HERE!!! **************PAY ATTENTION*************
   
@@ -44,7 +37,7 @@ void setup(){
   error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
   
   if(error == 0){
-    Serial.print("Found Controller, configured successful ");
+    Serial.println("Controle encontrado, configurado com successo");
     Serial.print("pressures = ");
 	if (pressures)
 	  Serial.println("true ");
@@ -55,34 +48,34 @@ void setup(){
 	  Serial.println("true)");
 	else
 	  Serial.println("false");
-    Serial.println("Try out all the buttons, X will vibrate the controller, faster as you press harder;");
-    Serial.println("holding L1 or R1 will print out the analog stick values.");
-    Serial.println("Note: Go to www.billporter.info for updates and to report bugs.");
+    Serial.println("Experimente todos os botões, X vibrará o controlador, mais rápido, enquanto pressiona mais fortemente;");
+    Serial.println("segurando L1 ou R1 imprimirá os valores de stick analógicos.");
+    Serial.println("Nota: vá para www.billporter.info para obter atualizações e relatar erros.");
   }  
   else if(error == 1)
-    Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
+    Serial.println("Controle não encontrado, verifique as conexões, veja readme.txt para habilitar debug. visit www.billporter.info for troubleshooting tips");
    
   else if(error == 2)
-    Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
+    Serial.println("Controle encontrado mas não aceita comandos. veja readme.txt para habilitar debug. Visit www.billporter.info for troubleshooting tips");
 
   else if(error == 3)
-    Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
+    Serial.println("Controle não entra em modo pressures, pode não suportar esse modo. ");
   
 //  Serial.print(ps2x.Analog(1), HEX);
   
   type = ps2x.readType(); 
   switch(type) {
     case 0:
-      Serial.print("Unknown Controller type found ");
+      Serial.print("Não identificado o tipo do controle");
       break;
     case 1:
-      Serial.print("DualShock Controller found ");
+      Serial.print("Controle DualShock ");
       break;
     case 2:
-      Serial.print("GuitarHero Controller found ");
+      Serial.print("Controle GuitarHero ");
       break;
 	case 3:
-      Serial.print("Wireless Sony DualShock Controller found ");
+      Serial.print("Controle sem fio Sony DualShock");
       break;
    }
 }
