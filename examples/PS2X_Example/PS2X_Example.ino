@@ -1,9 +1,11 @@
 #include <PS2X_lib.h>  //for v1.6
 
-#define PS2_DAT        13 
-#define PS2_CMD        11 
-#define PS2_SEL        10 
-#define PS2_CLK        12 
+#define PS2_DAT        13 //Marrom   (usar pull-up)
+#define PS2_CMD        11 //Laranja
+#define PS2_SEL        10 //Amarelho (usar pull-up)
+#define PS2_CLK        12 //Azul
+//VCC 3.3V   (5V?)        //Vermelho
+//GND/Terra               //Preto
 
 /*
   Selecione os modos do controle:
