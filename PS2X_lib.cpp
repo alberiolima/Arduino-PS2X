@@ -206,6 +206,7 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
 
 #if defined(__AVR__)
   digitalWrite(dat, HIGH); //enable pull-up
+  digitalWrite(att, HIGH); //HI disable joystick
 #endif
 
   CMD_SET(); // SET(*_cmd_oreg,_cmd_mask);

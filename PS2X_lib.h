@@ -181,6 +181,7 @@ class PS2X {
     bool enablePressures();
     byte Analog(byte);
     void reconfig_gamepad();
+    unsigned char PS2data[21]; //antes era definida em private
 
   private:
     inline void CLK_SET(void);
@@ -192,7 +193,7 @@ class PS2X {
     inline bool DAT_CHK(void);
     
     unsigned char _gamepad_shiftinout (char);
-    unsigned char PS2data[21];
+    //unsigned char PS2data[21]; tornei publica para poder acesso externo
     void sendCommandString(byte*, byte);
     unsigned char i;
     unsigned int last_buttons;
